@@ -62,15 +62,15 @@ class RestKotlinApplicationTests {
 
 		val requestEntity = RequestEntity<Any>(HttpMethod.GET, URI.create("/person"))
 
-		// create typereference for response serialization
-		class ListOfPeople : ParameterizedTypeReference<List<Person>>() // can this be done inline in the exchange method
-		val responseEntity : ResponseEntity<List<Person>> = restTemplate.exchange(requestEntity, ListOfPeople())
+		// create typereference for response de-serialization
+		val responseEntity : ResponseEntity<List<Person>> =
+				restTemplate.exchange(requestEntity, object: ParameterizedTypeReference<List<Person>> () {})
 
 		assertNotNull(responseEntity)
 		assertEquals(200, responseEntity.statusCodeValue)
 		assertTrue( responseEntity.body.size >= 4 )
 
-		responseEntity.body.forEach { person ->
+		responseEntity.body.forEach { person ->	
 			println("Found person: [${person.firstname} ${person.lastname}] " +
 					", born [${person.birthdate}]")
 		}
