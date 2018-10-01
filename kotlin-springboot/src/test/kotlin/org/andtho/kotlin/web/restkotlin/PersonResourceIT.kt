@@ -13,17 +13,15 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 import org.springframework.http.RequestEntity
-import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit4.SpringRunner
 import java.net.URI
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-@ThreadSafe
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RestKotlinApplicationTests {
+class PersonResourceIT {
 
 	companion object {
 		/*
@@ -48,12 +46,13 @@ class RestKotlinApplicationTests {
 		assertNotNull(responseEntity)
 		assertEquals(200, responseEntity.statusCodeValue)
 		val person = responseEntity.body
-		assertEquals("test", person.firstname)
-		assertEquals("lastname", person.lastname)
+		assertEquals("test", person?.firstname)
+		assertEquals("lastname", person?.lastname)
 	}
 
 	@Test
 	fun `get list of people`() {
+
 		// create testdata
 		datastore.save(Person(firstname = "test1", lastname = "lastname1"))
 		datastore.save(Person(firstname = "test2", lastname = "lastname2"))

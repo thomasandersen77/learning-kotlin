@@ -33,13 +33,15 @@ final class JerseyConfig : ResourceConfig() {
 @Provider
 class MyObjectMapper : ContextResolver<ObjectMapper> {
     override fun getContext(p0: Class<*>?): ObjectMapper {
-        return ObjectMapper()
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
-                .findAndRegisterModules()
+        return createObjectMapper()
     }
 
     companion object {
-
+        fun createObjectMapper() : ObjectMapper {
+            return ObjectMapper()
+                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
+                    .findAndRegisterModules()
+        }
     }
 }
 
@@ -51,7 +53,7 @@ class ConfigureMorphia @Autowired constructor(val env : Environment) {
     fun datastore() : Datastore {
         val morphia = Morphia()
         morphia.map(Person::class.java)
-
+        // override this bean for dynamic port
         val mongoClient = MongoClient( env.getProperty("mongodb.host"), env.getProperty("mongodb.port").toInt() )
         return morphia.createDatastore(mongoClient, "test")
     }

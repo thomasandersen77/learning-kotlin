@@ -31,6 +31,6 @@ object MongoServerTestResource : ExternalResource() {
     }
 
     override fun after() {
-       _mongod?.stopInternal()
+       _mongod?.stop()
     }
 }
