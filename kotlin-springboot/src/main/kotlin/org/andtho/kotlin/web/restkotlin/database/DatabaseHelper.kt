@@ -1,7 +1,9 @@
 package org.andtho.kotlin.web.restkotlin.database
 
-class DatabaseHelper {
+import java.sql.Connection
+import java.sql.DriverManager
 
+class DatabaseHelper {
 
 
 }
