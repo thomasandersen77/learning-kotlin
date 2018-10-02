@@ -3,6 +3,7 @@ package org.andtho.kotlin.web.restkotlin
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.mongodb.MongoClient
+import org.andtho.kotlin.web.restkotlin.mongodb.PersonMongoDbRepository
 import org.andtho.kotlin.web.restkotlin.person.Person
 import org.andtho.kotlin.web.restkotlin.person.PersonResource
 import org.glassfish.jersey.server.ResourceConfig
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.stereotype.Component
 import javax.ws.rs.ext.ContextResolver
 import javax.ws.rs.ext.Provider
@@ -24,9 +26,16 @@ final class JerseyConfig : ResourceConfig() {
     }
 
     fun registerEndpoints() {
+        register(PersonMongoDbRepository::class.java)
         register(PersonResource::class.java)
         register(MyObjectMapper::class.java)
     }
+}
+
+@Configuration
+@EnableMongoRepositories(basePackageClasses = [PersonMongoDbRepository::class])
+class MongoDbrepository {
+
 }
 
 @Component
@@ -54,7 +63,7 @@ class ConfigureMorphia @Autowired constructor(val env : Environment) {
         val morphia = Morphia()
         morphia.map(Person::class.java)
         // override this bean for dynamic port
-        val mongoClient = MongoClient( env.getProperty("mongodb.host"), env.getProperty("mongodb.port").toInt() )
+        val mongoClient = MongoClient( env.getProperty("mongodb.host"),  env.getProperty("mongodb.port").toInt() )
         return morphia.createDatastore(mongoClient, "test")
     }
 }

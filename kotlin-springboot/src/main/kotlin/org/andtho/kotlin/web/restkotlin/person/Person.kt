@@ -12,5 +12,11 @@ class Person constructor(@Id var id : String? = null,
                         val birthdate : LocalDate = LocalDate.now()
             ) {
 
+    constructor() : this(null)
+
+    /* functional methods */
+
     fun age() : Int = Period.between(birthdate, LocalDate.now()).years
+
+    fun birthYear() : Int = birthdate.year
 }
