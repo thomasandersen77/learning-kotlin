@@ -14,7 +14,7 @@ class FunctionCallbackTest {
         pane.message = text
         val dialog = pane.createDialog(text)
         thread(start = true){
-            Thread.sleep(1000)
+            Thread.sleep(300)
             dialog.dispose()
         }
         dialog.isVisible = true

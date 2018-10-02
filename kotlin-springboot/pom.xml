@@ -124,7 +124,7 @@
 
 
 	<build>
-		<finalName>kotlin-rest</finalName>
+		<finalName>kotlin-spring-boot</finalName>
 		<sourceDirectory>src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>src/test/kotlin</testSourceDirectory>
 		<plugins>
