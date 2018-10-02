@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 import java.lang.RuntimeException
 
 @Repository
-class PersonRepository @Autowired constructor(val datastore: Datastore) {
+class PersonRepository constructor(val datastore: Datastore) {
     val log : Logger = LoggerFactory.getLogger(PersonRepository::class.java)
 
     fun getPersonById(id: String) : Person {

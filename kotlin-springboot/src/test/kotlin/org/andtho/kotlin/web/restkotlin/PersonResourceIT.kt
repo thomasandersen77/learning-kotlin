@@ -1,7 +1,6 @@
-
 package org.andtho.kotlin.web.restkotlin
 
-import com.mongodb.annotations.ThreadSafe
+import org.andtho.kotlin.web.restkotlin.mongodb.MongoServerTestResource
 import org.andtho.kotlin.web.restkotlin.person.Person
 import org.junit.ClassRule
 import org.junit.Test
@@ -23,73 +22,68 @@ import kotlin.test.assertTrue
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PersonResourceIT {
 
-	companion object {
-		/*
-		 * Instructs the Kotlin compiler not to generate getters/setters for this property
-		 * and expose it as a field.
-		 */
-		@ClassRule @JvmField
-		val mongoServer = MongoServerTestResource
-	}
+    companion object {
+        @ClassRule @JvmField
+        val mongoServer = MongoServerTestResource
+    }
 
-	// @get:Rule
-	// val mongoServer = MongoServerPerTestResource
+    @Autowired
+    lateinit var datastore: Datastore
+    @Autowired
+    lateinit var restTemplate : TestRestTemplate
 
-	@Autowired lateinit var restTemplate: TestRestTemplate
-	@Autowired lateinit var datastore : Datastore
+    @Test
+    fun `get person by id`() {
+        val key = datastore.save(Person(firstname = "test", lastname = "lastname"))
 
-	@Test
-	fun `get person by id`() {
-		val key = datastore.save(Person(firstname = "test", lastname = "lastname"))
+        val responseEntity = restTemplate.getForEntity("/person/${key.id}", Person::class.java)
+        assertNotNull(responseEntity)
+        assertEquals(200, responseEntity.statusCodeValue)
+        val person = responseEntity.body
+        assertEquals("test", person?.firstname)
+        assertEquals("lastname", person?.lastname)
+    }
 
-		val responseEntity = restTemplate.getForEntity("/person/${key.id}", Person::class.java)
-		assertNotNull(responseEntity)
-		assertEquals(200, responseEntity.statusCodeValue)
-		val person = responseEntity.body
-		assertEquals("test", person?.firstname)
-		assertEquals("lastname", person?.lastname)
-	}
+    @Test
+    fun `get list of people`() {
 
-	@Test
-	fun `get list of people`() {
+        // create testdata
+        datastore.save(Person(firstname = "test1", lastname = "lastname1"))
+        datastore.save(Person(firstname = "test2", lastname = "lastname2"))
+        datastore.save(Person(firstname = "test3", lastname = "lastname2"))
+        datastore.save(Person(firstname = "test4", lastname = "lastname2"))
 
-		// create testdata
-		datastore.save(Person(firstname = "test1", lastname = "lastname1"))
-		datastore.save(Person(firstname = "test2", lastname = "lastname2"))
-		datastore.save(Person(firstname = "test3", lastname = "lastname2"))
-		datastore.save(Person(firstname = "test4", lastname = "lastname2"))
+        val requestEntity = RequestEntity<Any>(HttpMethod.GET, URI.create("/person"))
 
-		val requestEntity = RequestEntity<Any>(HttpMethod.GET, URI.create("/person"))
+        // create typereference for response de-serialization
+        val responseEntity = restTemplate.exchange(requestEntity, object : ParameterizedTypeReference<List<Person>>() {})
 
-		// create typereference for response de-serialization
-		val responseEntity = restTemplate.exchange(requestEntity, object: ParameterizedTypeReference<List<Person>> () {})
+        assertNotNull(responseEntity)
+        assertEquals(200, responseEntity.statusCodeValue)
+        assertTrue(responseEntity.body.size >= 4)
 
-		assertNotNull(responseEntity)
-		assertEquals(200, responseEntity.statusCodeValue)
-		assertTrue( responseEntity.body.size >= 4 )
+        responseEntity.body.forEach { person ->
+            println("Found person: [${person.firstname} ${person.lastname}] " +
+                    ", born [${person.birthdate}]")
+        }
+    }
 
-		responseEntity.body.forEach { person ->
-			println("Found person: [${person.firstname} ${person.lastname}] " +
-					", born [${person.birthdate}]")
-		}
-	}
+    @Test
+    fun `create person by http post`() {
+        val name = "Foo"
+        val personUnderTest = Person(firstname = name, lastname = "Bar")
 
-	@Test
-	fun `create person by http post`() {
-		val name = "Foo"
-		val personUnderTest = Person(firstname = name, lastname = "Bar")
+        val responseEntity = restTemplate.postForEntity("/person", personUnderTest, Person::class.java)
+        assertNotNull(responseEntity)
+        assertEquals(200, responseEntity.statusCodeValue)
 
-		val responseEntity = restTemplate.postForEntity("/person", personUnderTest, Person::class.java)
-		assertNotNull(responseEntity)
-		assertEquals(200, responseEntity.statusCodeValue)
-
-		datastore.createQuery(Person::class.java)
-				.filter("firstname", name)
-				.asIterable()
-				.forEach { person ->
-					assertEquals("Foo", person.firstname)
-					assertEquals("Bar", person.lastname)
-					println("Found person with name: ${person.firstname} ${person.lastname} ")
-				}
-	}
+        datastore.createQuery(Person::class.java)
+                .filter("firstname", name)
+                .asIterable()
+                .forEach { person ->
+                    assertEquals("Foo", person.firstname)
+                    assertEquals("Bar", person.lastname)
+                    println("Found person with name: ${person.firstname} ${person.lastname} ")
+                }
+    }
 }

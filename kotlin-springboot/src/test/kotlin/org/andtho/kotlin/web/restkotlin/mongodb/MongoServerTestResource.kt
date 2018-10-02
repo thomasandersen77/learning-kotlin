@@ -1,10 +1,9 @@
-package org.andtho.kotlin.web.restkotlin
+package org.andtho.kotlin.web.restkotlin.mongodb
 
 import com.mongodb.MongoClient
 import com.mongodb.annotations.ThreadSafe
 import de.flapdoodle.embed.mongo.MongodProcess
 import de.flapdoodle.embed.mongo.MongodStarter
-import de.flapdoodle.embed.mongo.config.IMongoCmdOptions
 import de.flapdoodle.embed.mongo.config.MongoCmdOptionsBuilder
 import de.flapdoodle.embed.mongo.config.MongodConfigBuilder
 import de.flapdoodle.embed.mongo.config.Net
