@@ -1,8 +1,7 @@
 package org.andtho.kotlin.domain
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class CityTest {
 
@@ -10,6 +9,6 @@ class CityTest {
     fun pretty() {
         val hokksund = City.HOKKSUND.pretty()
         println(hokksund)
-        assertEquals("Hokksund", hokksund)
+        assertEquals("HOKKSUND", hokksund)
     }
 }

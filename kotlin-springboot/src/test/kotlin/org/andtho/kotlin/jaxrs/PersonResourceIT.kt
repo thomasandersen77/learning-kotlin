@@ -1,8 +1,9 @@
-package org.andtho.kotlin.resources
+package org.andtho.kotlin.jaxrs
 
+import org.andtho.kotlin.domain.Person
 import org.andtho.kotlin.mongodb.MongoServerTestResource
 import org.andtho.kotlin.mongodb.PersonMongoDbRepository
-import org.andtho.kotlin.domain.Person
+import org.glassfish.jersey.client.JerseyClientBuilder
 import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -18,6 +20,7 @@ import org.springframework.http.RequestEntity
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.context.junit4.SpringRunner
 import java.net.URI
+import javax.ws.rs.core.GenericType
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -31,18 +34,43 @@ class PersonResourceIT {
         val mongoServer = MongoServerTestResource
     }
 
+    @LocalServerPort
+    var port : Int = 0
+
     @Autowired
     lateinit var datastore: PersonMongoDbRepository
     @Autowired
     lateinit var restTemplate : TestRestTemplate
 
-    @Before
-    fun setUp() {
-
+/*    @Before
+    fun setMessageConverter() {
+        println("******************* port: $port *********************")
         val messageConverters = restTemplate.restTemplate.messageConverters
         val converter = MappingJackson2HttpMessageConverter()
-        converter.supportedMediaTypes.addAll(arrayListOf(MediaType.ALL))
+        converter.supportedMediaTypes = arrayListOf(MediaType.ALL)
         messageConverters.add(converter)
+    }*/
+
+    @Test
+    fun `test resource with jersey client`() {
+        // create testdata
+        datastore.save(Person(firstname = "test1", lastname = "lastname1"))
+        datastore.save(Person(firstname = "test2", lastname = "lastname2"))
+        datastore.save(Person(firstname = "test3", lastname = "lastname2"))
+        datastore.save(Person(firstname = "test4", lastname = "lastname2"))
+
+        val client = JerseyClientBuilder.newClient()
+                .register(MyObjectMapper.createObjectMapper())
+
+        val response = client.target("http://localhost:$port/person")
+                .request()
+                .accept(javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE)
+                .buildGet()
+                .invoke()
+
+        assertEquals(200, response.status)
+        val entity = response.readEntity(object : GenericType<List<Person>>() {})
+        entity.map { person -> person.lastname }.forEach { println(it) }
     }
 
     @Test
@@ -68,7 +96,6 @@ class PersonResourceIT {
 
         val requestEntity = RequestEntity<Any>(HttpMethod.GET, URI.create("/person"))
 
-        // create typereference for response de-serialization
         val responseEntity = restTemplate.exchange(requestEntity, object : ParameterizedTypeReference<List<Person>>() {})
 
         assertNotNull(responseEntity)

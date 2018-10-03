@@ -1,34 +1,35 @@
-package org.andtho.kotlin.resources
+package org.andtho.kotlin.jaxrs
 
 import org.andtho.kotlin.domain.Person
 import org.andtho.kotlin.mongodb.PersonMongoDbRepository
 import org.springframework.stereotype.Component
 import javax.ws.rs.*
+import javax.ws.rs.core.MediaType
 
 @Component
 @Path("person")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 class PersonResource constructor(val repository: PersonMongoDbRepository) {
 
     @GET
     @Path("{_id}")
-    @Produces("application/json")
-    fun getPerson(@PathParam("_id") id : String) : Person = repository.findById(id)
+    fun getPerson(@PathParam("_id") id : String) : Person {
+        return repository.findById(id)
+    }
 
     @GET
-    @Produces("application/json")
     fun getPersonList() : List<Person> {
         val personList = repository.findAll()
         return personList
     }
 
     @POST
-    @Consumes("application/json")
     fun createPerson(person: Person) {
         repository.save(person)
     }
 
     @GET
-    @Produces("application/json")
     fun getPersonByLastname(@QueryParam("lastname") lastname : String) : List<Person> {
         val people = repository.findByLastname(lastname)
         return people
