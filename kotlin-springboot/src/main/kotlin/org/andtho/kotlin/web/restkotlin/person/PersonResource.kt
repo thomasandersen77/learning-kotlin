@@ -25,4 +25,11 @@ class PersonResource constructor(val repository: PersonMongoDbRepository) {
     fun createPerson(person: Person) {
         repository.save(person)
     }
+
+    @GET
+    @Produces("application/json")
+    fun getPersonByLastname(@QueryParam("lastname") lastname : String) : List<Person> {
+        val people = repository.findByLastname(lastname)
+        return people
+    }
 }

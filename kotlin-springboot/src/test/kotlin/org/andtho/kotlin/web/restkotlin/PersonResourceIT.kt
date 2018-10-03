@@ -9,9 +9,11 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.RequestEntity
 import org.springframework.test.context.junit4.SpringRunner
 import java.net.URI
@@ -86,4 +88,18 @@ class PersonResourceIT {
                     println("Found person with name: ${person.firstname} ${person.lastname} ")
                 }
     }
+
+    @Test
+    fun `get list of people by lastname`() {
+
+        // create testdata
+        datastore.save(Person(firstname = "test1", lastname = "lastname1"))
+        datastore.save(Person(firstname = "test2", lastname = "lastname2"))
+        datastore.save(Person(firstname = "test3", lastname = "lastname2"))
+        datastore.save(Person(firstname = "test4", lastname = "lastname2"))
+
+
+    }
 }
+
+

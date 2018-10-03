@@ -2,11 +2,14 @@ package org.andtho.kotlin.web.restkotlin.mongodb
 
 import org.andtho.kotlin.web.restkotlin.person.Person
 import org.junit.ClassRule
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
+import java.time.LocalDate
+import java.util.function.Predicate
 import kotlin.test.assertEquals
 
 @RunWith(SpringRunner::class)
