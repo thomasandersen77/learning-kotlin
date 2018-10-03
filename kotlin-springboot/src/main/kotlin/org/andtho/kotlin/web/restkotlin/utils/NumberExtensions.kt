@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin.database
+package org.andtho.kotlin.web.restkotlin.utils
 
 import java.math.BigDecimal
 import java.math.RoundingMode

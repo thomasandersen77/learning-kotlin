@@ -101,27 +101,12 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jetbrains.exposed</groupId>
-			<artifactId>exposed</artifactId>
-			<version>0.9.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<version>2.0.5.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>exposed</id>
-			<name>exposed</name>
-			<url>https://dl.bintray.com/kotlin/exposed</url>
-		</repository>
-	</repositories>
-
 
 	<build>
 		<finalName>kotlin-spring-boot</finalName>

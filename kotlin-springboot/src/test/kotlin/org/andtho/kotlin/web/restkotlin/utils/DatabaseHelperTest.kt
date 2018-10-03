@@ -1,10 +1,10 @@
-package org.andtho.kotlin.web.restkotlin.database
+package org.andtho.kotlin.web.restkotlin.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.math.BigDecimal
 
-class DatabaseHelperTest {
+class NumberExtensionTest{
 
     @Test
     fun createConnection() {
