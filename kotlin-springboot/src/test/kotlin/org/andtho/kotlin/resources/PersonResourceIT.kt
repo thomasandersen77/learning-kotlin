@@ -1,20 +1,21 @@
-package org.andtho.kotlin.web.restkotlin
+package org.andtho.kotlin.resources
 
-import org.andtho.kotlin.web.restkotlin.mongodb.MongoServerTestResource
-import org.andtho.kotlin.web.restkotlin.mongodb.PersonMongoDbRepository
-import org.andtho.kotlin.web.restkotlin.person.Person
+import org.andtho.kotlin.mongodb.MongoServerTestResource
+import org.andtho.kotlin.mongodb.PersonMongoDbRepository
+import org.andtho.kotlin.domain.Person
+import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.RequestEntity
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.context.junit4.SpringRunner
 import java.net.URI
 import kotlin.test.assertEquals
@@ -34,6 +35,15 @@ class PersonResourceIT {
     lateinit var datastore: PersonMongoDbRepository
     @Autowired
     lateinit var restTemplate : TestRestTemplate
+
+    @Before
+    fun setUp() {
+
+        val messageConverters = restTemplate.restTemplate.messageConverters
+        val converter = MappingJackson2HttpMessageConverter()
+        converter.supportedMediaTypes.addAll(arrayListOf(MediaType.ALL))
+        messageConverters.add(converter)
+    }
 
     @Test
     fun `get person by id`() {
@@ -66,7 +76,7 @@ class PersonResourceIT {
         assertTrue(responseEntity.body.size >= 4)
 
         responseEntity.body.forEach { person ->
-            println("Found person: [${person.firstname} ${person.lastname}] " +
+            println("Found resources: [${person.firstname} ${person.lastname}] " +
                     ", born [${person.birthdate}]")
         }
     }

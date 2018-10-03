@@ -1,6 +1,6 @@
-package org.andtho.kotlin.web.restkotlin.mongodb
+package org.andtho.kotlin.mongodb
 
-import org.andtho.kotlin.web.restkotlin.person.Person
+import org.andtho.kotlin.domain.Person
 import org.springframework.data.repository.Repository
 
 

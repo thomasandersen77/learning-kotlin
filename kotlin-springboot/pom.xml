@@ -148,7 +148,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>org.andtho.kotlin.web.restkotlin.RestKotlinApplication</mainClass>
+					<mainClass>org.andtho.kotlin.RestKotlinApplication</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>

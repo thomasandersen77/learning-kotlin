@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin.functions
+package org.andtho.kotlin.function
 
 import org.junit.Test
 import kotlin.test.assertEquals

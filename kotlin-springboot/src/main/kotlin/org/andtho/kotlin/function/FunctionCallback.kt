@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin.callback
+package org.andtho.kotlin.function
 
 abstract class FunctionCallback {
     open fun onSuccess() {}

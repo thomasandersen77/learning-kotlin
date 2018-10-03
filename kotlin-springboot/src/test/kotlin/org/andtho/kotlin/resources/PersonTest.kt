@@ -1,6 +1,7 @@
 
-package org.andtho.kotlin.web.restkotlin.person
+package org.andtho.kotlin.resources
 
+import org.andtho.kotlin.domain.Person
 import org.junit.Test
 import java.time.LocalDate
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin.mongodb
+package org.andtho.kotlin.mongodb
 
 import com.mongodb.MongoClient
 import com.mongodb.annotations.ThreadSafe

@@ -1,6 +1,7 @@
-package org.andtho.kotlin.web.restkotlin.person
+package org.andtho.kotlin.resources
 
-import org.andtho.kotlin.web.restkotlin.mongodb.PersonMongoDbRepository
+import org.andtho.kotlin.domain.Person
+import org.andtho.kotlin.mongodb.PersonMongoDbRepository
 import org.springframework.stereotype.Component
 import javax.ws.rs.*
 

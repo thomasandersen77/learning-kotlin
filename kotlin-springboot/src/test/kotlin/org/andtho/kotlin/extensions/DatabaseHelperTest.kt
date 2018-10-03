@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin.database
+package org.andtho.kotlin.extensions
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

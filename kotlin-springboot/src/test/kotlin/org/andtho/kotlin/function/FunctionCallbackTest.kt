@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin.callback
+package org.andtho.kotlin.function
 
 import org.junit.Test
 import java.io.File
@@ -27,6 +27,7 @@ class FunctionCallbackTest {
             override fun onSuccess() {
                 println("execute onSuccess")
             }
+
             override fun onFailure() {
                 println("execute onFailure")
             }
@@ -43,6 +44,7 @@ class FunctionCallbackTest {
             override fun onSuccess() {
                 println("execute onSuccess")
             }
+
             override fun onFailure() {
                 println("execute onFailure")
             }

@@ -1,6 +1,6 @@
-package org.andtho.kotlin.web.restkotlin.collections
+package org.andtho.kotlin.collections
 
-import org.andtho.kotlin.web.restkotlin.collections.CollectionTest.Element.Companion.create
+import org.andtho.kotlin.collections.CollectionTest.Element.Companion.create
 import org.junit.Test
 import java.util.concurrent.atomic.LongAdder
 

@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin
+package org.andtho.kotlin
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration

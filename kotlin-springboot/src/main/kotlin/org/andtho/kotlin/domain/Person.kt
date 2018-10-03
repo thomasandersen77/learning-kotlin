@@ -1,4 +1,4 @@
-package org.andtho.kotlin.web.restkotlin.person
+package org.andtho.kotlin.domain
 
 import org.mongodb.morphia.annotations.Entity
 import org.mongodb.morphia.annotations.Id
@@ -11,8 +11,6 @@ class Person constructor(@Id var id : String? = null,
                         val lastname : String = "",
                         val birthdate : LocalDate = LocalDate.now()
             ) {
-
-    constructor() : this(null)
 
     /* functional methods */
 

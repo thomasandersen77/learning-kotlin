@@ -1,11 +1,11 @@
-package org.andtho.kotlin.web.restkotlin
+package org.andtho.kotlin
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.mongodb.MongoClient
-import org.andtho.kotlin.web.restkotlin.mongodb.PersonMongoDbRepository
-import org.andtho.kotlin.web.restkotlin.person.Person
-import org.andtho.kotlin.web.restkotlin.person.PersonResource
+import org.andtho.kotlin.mongodb.PersonMongoDbRepository
+import org.andtho.kotlin.domain.Person
+import org.andtho.kotlin.resources.PersonResource
 import org.glassfish.jersey.server.ResourceConfig
 import org.mongodb.morphia.Datastore
 import org.mongodb.morphia.Morphia
